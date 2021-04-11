@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\GHIElectronics.TinyCLR.Core.2.1.0-preview4\build\net452\GHIElectronics.TinyCLR.Core.props" Condition="Exists('..\packages\GHIElectronics.TinyCLR.Core.2.1.0-preview4\build\net452\GHIElectronics.TinyCLR.Core.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{119BB93F-54F8-49D4-B85F-72F188B0DBC6}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>AzureDataSender_SC20260</RootNamespace>
+    <AssemblyName>AzureDataSender_SC20260</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <ProjectTypeGuids>{A1948822-69DD-4150-919B-F3F42EFB71CC};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="AnalogTableEntity.cs" />
+    <Compile Include="AnalogTablePropertiesAL.cs" />
+    <Compile Include="DataContainer.cs" />
+    <Compile Include="Models\AnalogValueSet.cs" />
+    <Compile Include="Models\OnOffTableEntity.cs" />
+    <Compile Include="OnOffTablePropertiesAL.cs" />
+    <Compile Include="PervasiveDigital\Security\ManagedProviders\HMACSHA256.cs" />
+    <Compile Include="PervasiveDigital\Security\ManagedProviders\IHashAlgorithm.cs" />
+    <Compile Include="PervasiveDigital\Security\ManagedProviders\Sha2.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="ResourcesSecret.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>ResourcesSecret.resx</DependentUpon>
+    </Compile>
+    <Compile Include="RoSchmi\Net\Azure\Storage\AzureStorageHelper.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\BasicHttpResponse.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\CloudStorageAccount.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\ITableEntity.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\makePropertyArray.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\TableClient.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\TableEntity.cs" />
+    <Compile Include="RoSchmi\Net\Azure\Storage\TableEntityProperty.cs" />
+    <Compile Include="RoSchmi\TinyCLR2\Time\TimeService.cs" />
+    <Compile Include="RoSchmi\Utilities\BoyerMoore.cs" />
+    <Compile Include="RoSchmi\Utilities\StringExtensions.cs" />
+    <Compile Include="Security\HMACMD5.cs" />
+    <Compile Include="Security\MD5.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="PervasiveDigital\Net\" />
+    <Folder Include="PervasiveDigital\Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="Resources\BaltimoreCyberTrustRoot.crt" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ResourcesSecret.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>ResourcesSecret.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ResourcesSecret\AzureAccountKey.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ResourcesSecret\AzureAccountName.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="ResourcesSecret\Key_1.txt" />
+    <Content Include="ResourcesSecret\SSID_1.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Adc, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Adc.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Adc.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Gpio, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Gpio.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Gpio.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Network, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Network.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Network.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Rtc, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Rtc.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Rtc.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Spi, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Spi.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Spi.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Storage, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Storage.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Devices.Uart, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Devices.Uart.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Devices.Uart.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.IO, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.IO.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.IO.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Native, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Native.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Native.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Networking, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Networking.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Networking.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Networking.Http, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Networking.Http.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Networking.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="GHIElectronics.TinyCLR.Pins, Version=2.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\GHIElectronics.TinyCLR.Pins.2.1.0-preview4\lib\net452\GHIElectronics.TinyCLR.Pins.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>Dieses Projekt verweist auf mindestens ein NuGet-Paket, das auf diesem Computer fehlt. Verwenden Sie die Wiederherstellung von NuGet-Paketen, um die fehlenden Dateien herunterzuladen. Weitere Informationen finden Sie unter "http://go.microsoft.com/fwlink/?LinkID=322105". Die fehlende Datei ist "{0}".</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\GHIElectronics.TinyCLR.Core.2.1.0-preview4\build\net452\GHIElectronics.TinyCLR.Core.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\GHIElectronics.TinyCLR.Core.2.1.0-preview4\build\net452\GHIElectronics.TinyCLR.Core.props'))" />
+  </Target>
+</Project>
