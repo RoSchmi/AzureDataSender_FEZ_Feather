@@ -42,6 +42,8 @@ using GHIElectronics.TinyCLR.Devices.Spi;
 using GHIElectronics.TinyCLR.Pins;
 using GHIElectronics.TinyCLR.Devices.Network;
 using GHIElectronics.TinyCLR.Native;
+
+//using GHIElectronics.TinyCLR.Native.
 using RoSchmi.TinyCLR2.Time;
 using RoSchmi.Net.Azure.Storage;
 using AzureDataSender;
@@ -79,7 +81,7 @@ namespace AzureDataSender_FEZ_Feather
         // Set intervals (in seconds, invalidateInterval in minutes)
         static int readInterval = 4;                     // in this interval (seconds) analog sensors are read
 
-        static int writeToCloudInterval = 60;   // for tests 30, in this interval(seconds) the analog data are stored to the cloud
+        static int writeToCloudInterval = 300;   // for tests 30, in this interval(seconds) the analog data are stored to the cloud
 
         //static int writeToCloudInterval = 150;  // for real application 150 or more, in this interval (seconds) the analog data are stored to the cloud 
 
@@ -160,6 +162,10 @@ namespace AzureDataSender_FEZ_Feather
             // Use low cpu frequency
             //https://docs.ghielectronics.com/software/tinyclr/tutorials/power-management.html
 
+            // Cave: Do not activate both code alternatives together to change System Clock
+            // If the board gets unresponsive erase application in loader mode (ldr button)
+            // 
+
             var PersistClock = true;
             if (Power.GetSystemClock() == SystemClock.High)
             {
@@ -167,14 +173,6 @@ namespace AzureDataSender_FEZ_Feather
                 Power.Reset();
             }
 
-            Debug.WriteLine(Power.GetSystemClock() == SystemClock.Low ? "Using low cpu-frequency" : "Using high cpu-frequency");
-
-            
-
-
-            // Do not use both codes to change System Clock
-            // If the board gets unresponsive erase application in loader mode (ldr button)
-            // 
             /*
             if (Power.GetSystemClock() == SystemClock.Low)
             {
@@ -183,10 +181,14 @@ namespace AzureDataSender_FEZ_Feather
             }
             */
 
-            //var LED = GpioController.GetDefault().OpenPin(SC20260.GpioPin.PH6);
-            //LED.SetDriveMode(GpioPinDriveMode.Output);
+            // Print System.Clock state
+            Debug.WriteLine(Power.GetSystemClock() == SystemClock.Low ? "Using low cpu-frequency" : "Using high cpu-frequency");
+
+           
+            var LED = GpioController.GetDefault().OpenPin(SC20100.GpioPin.PE11);
+            LED.SetDriveMode(GpioPinDriveMode.Output);
             // Signals start of program (for tests)
-            /*
+            
             for (int i = 0; i < 5; i++)
             {
                 LED.Write(GpioPinValue.High);
@@ -195,16 +197,29 @@ namespace AzureDataSender_FEZ_Feather
                 LED.Write(GpioPinValue.Low);
                 Thread.Sleep(600);
             }
-            */
+            
 
             myCloudStorageAccount = myCloudStorageAccount = new CloudStorageAccount(storageAccountName, storageKey, useHttps: Azure_useHTTPS);
 
             //SetupEnc28_SC20260D_MicroBus1();
 #if UseWifiModule
             SetupWiFi7Click_SC20100_MicroBus1();
+
+            //Print the version of the installed WiFi firmware:        
+            Debug.WriteLine("Winc1500 Firmware Version: " + GHIElectronics.TinyCLR.Drivers.Microchip.Winc15x0.Winc15x0Interface.GetFirmwareVersion());
+
+            Debug.WriteLine("Supported Firmware Versions are: ");
+            for (int i = 0; i < GHIElectronics.TinyCLR.Drivers.Microchip.Winc15x0.Winc15x0Interface.FirmwareSupports.Length; i++)
+            {
+                System.Diagnostics.Debug.WriteLine("Supported firmware version #" +
+                    (i + 1).ToString() + ": " + GHIElectronics.TinyCLR.Drivers.Microchip.Winc15x0.Winc15x0Interface.FirmwareSupports[i].ToString());
+            }
+
 #else
             SetupEnc28_SC20260D_MicroBus1();
 #endif
+
+
 
             TimeService.SystemTimeChanged += TimeService_SystemTimeChanged;
             TimeService.SystemTimeChecked += TimeService_SystemTimeChecked;
