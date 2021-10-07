@@ -81,7 +81,7 @@ namespace AzureDataSender_FEZ_Feather
         // Set intervals (in seconds, invalidateInterval in minutes)
         static int readInterval = 4;                     // in this interval (seconds) analog sensors are read
 
-        static int writeToCloudInterval = 300;   // for tests 30, in this interval(seconds) the analog data are stored to the cloud
+        static int writeToCloudInterval = 15;   // for tests 30, in this interval(seconds) the analog data are stored to the cloud
 
         //static int writeToCloudInterval = 150;  // for real application 150 or more, in this interval (seconds) the analog data are stored to the cloud 
 
@@ -89,10 +89,10 @@ namespace AzureDataSender_FEZ_Feather
 
 
         // Set your WiFi Credentials here or store them in the Resources
-        static string wiFiSSID_1 = ResourcesSecret.GetString(ResourcesSecret.StringResources.SSID_1);
+        static string wiFiSSID_1 = ResourcesSecret.GetString(ResourcesSecret.StringResources.SSID_2);
         //static string wiFiSSID_1 = "VirtualWiFi";
 
-        static string wiFiKey_1 = ResourcesSecret.GetString(ResourcesSecret.StringResources.Key_1);
+        static string wiFiKey_1 = ResourcesSecret.GetString(ResourcesSecret.StringResources.Key_2);
         //static string wiFiKey_1 = "MySecretWiFiKey";
 
         // Set your Azure Storage Account Credentials here or store them in the Resources      
@@ -675,6 +675,9 @@ namespace AzureDataSender_FEZ_Feather
             }
 
             var rtc = RtcController.GetDefault();
+            
+
+
             if (timeServiceIsRunning)
             {
                 rtc.Now = DateTime.UtcNow;
@@ -750,8 +753,8 @@ namespace AzureDataSender_FEZ_Feather
             networkInterfaceSetting.Address = new IPAddress(new byte[] { 192, 168, 1, 122 });
             networkInterfaceSetting.SubnetMask = new IPAddress(new byte[] { 255, 255, 255, 0 });
             networkInterfaceSetting.GatewayAddress = new IPAddress(new byte[] { 192, 168, 1, 1 });
-            networkInterfaceSetting.DnsAddresses = new IPAddress[] { new IPAddress(new byte[]
-        { 75, 75, 75, 75 }), new IPAddress(new byte[] { 75, 75, 75, 76 }) };
+            //networkInterfaceSetting.DnsAddresses = new IPAddress[] { new IPAddress(new byte[]
+            // { 75, 75, 75, 75 }), new IPAddress(new byte[] { 75, 75, 75, 76 }) };
 
             networkInterfaceSetting.MacAddress = new byte[] { 0x00, 0x4, 0x00, 0x00, 0x00, 0x00 };
             networkInterfaceSetting.DhcpEnable = true;
